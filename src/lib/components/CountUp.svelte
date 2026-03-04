@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 
 	let { value, duration = 300, formatter }: { value: number; duration?: number; formatter?: (n: number) => string } = $props();
 
@@ -13,7 +13,7 @@
 	$effect(() => {
 		if (!mounted) return;
 		const target = value;
-		const start = display;
+		const start = untrack(() => display);
 		const startTime = performance.now();
 		const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 

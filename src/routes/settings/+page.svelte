@@ -10,6 +10,7 @@
 	let budgetInput = $state<string>(settings.monthlyBudget?.toString() || '');
 	let importStatus = $state('');
 	let showClearConfirm = $state(0); // 0=none, 1=first, 2=confirmed
+	let saveConfirm = $state(false);
 
 	const themes: { value: ThemeMode; label: string }[] = [
 		{ value: 'system', label: 'System' },
@@ -34,6 +35,12 @@
 				settingsStore.setBudget(num);
 			}
 		}
+	}
+
+	function handleSave() {
+		handleBudgetChange();
+		saveConfirm = true;
+		setTimeout(() => (saveConfirm = false), 2000);
 	}
 
 	function handleExport() {
@@ -189,6 +196,16 @@
 					{settings.sortDirection === 'asc' ? 'A→Z' : 'Z→A'}
 				</button>
 			</div>
+		</section>
+
+		<!-- Save -->
+		<section>
+			<button
+				class="w-full rounded-xl bg-brand-500 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-600"
+				onclick={handleSave}
+			>
+				{saveConfirm ? 'Saved!' : 'Save Settings'}
+			</button>
 		</section>
 
 		<!-- Notifications -->
